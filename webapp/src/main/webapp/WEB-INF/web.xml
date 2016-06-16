@@ -3,11 +3,11 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
-	<display-name>webapp</display-name>
+	<display-name>kms</display-name>
 	<!-- Spring和mybatis的配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring-mybatis.xml</param-value>
+		<param-value>/WEB-INF/spring-mybatis.xml</param-value>
 	</context-param>
 	<!-- 编码过滤器 -->
 	<filter>
@@ -31,14 +31,13 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-
 	<!-- Spring MVC servlet -->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
+			<param-value>/WEB-INF/spring-mvc.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>
@@ -47,8 +46,10 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	<welcome-file-list>
-		<welcome-file>/index.jsp</welcome-file>
-	</welcome-file-list>
-
+	<!-- 欢迎页过滤器 -->
+	<!-- <welcome-file-list> <welcome-file>/index.jsp</welcome-file> </welcome-file-list> -->
+	<!-- 配置SESSION超时，单位是分钟 -->
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
 </web-app>
