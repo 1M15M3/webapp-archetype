@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ftsafe.kms.dao.KeyInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.ftsafe.kms.pojo.KeyInfo" >
+    <id column="CLIENT_ID" property="clientId" jdbcType="CHAR" />
+    <id column="KEY_ID" property="keyId" jdbcType="CHAR" />
+    <result column="KEY_DESC" property="keyDesc" jdbcType="VARCHAR" />
+    <result column="KEY_VAL" property="keyVal" jdbcType="VARCHAR" />
+    <result column="KEY_DATE" property="keyDate" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CLIENT_ID, KEY_ID, KEY_DESC, KEY_VAL, KEY_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ftsafe.kms.pojo.KeyInfoKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_key_info
+    where CLIENT_ID = #{clientId,jdbcType=CHAR}
+      and KEY_ID = #{keyId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ftsafe.kms.pojo.KeyInfoKey" >
+    delete from t_key_info
+    where CLIENT_ID = #{clientId,jdbcType=CHAR}
+      and KEY_ID = #{keyId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ftsafe.kms.pojo.KeyInfo" >
+    insert into t_key_info (CLIENT_ID, KEY_ID, KEY_DESC, 
+      KEY_VAL, KEY_DATE)
+    values (#{clientId,jdbcType=CHAR}, #{keyId,jdbcType=CHAR}, #{keyDesc,jdbcType=VARCHAR}, 
+      #{keyVal,jdbcType=VARCHAR}, #{keyDate,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ftsafe.kms.pojo.KeyInfo" >
+    insert into t_key_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        CLIENT_ID,
+      </if>
+      <if test="keyId != null" >
+        KEY_ID,
+      </if>
+      <if test="keyDesc != null" >
+        KEY_DESC,
+      </if>
+      <if test="keyVal != null" >
+        KEY_VAL,
+      </if>
+      <if test="keyDate != null" >
+        KEY_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        #{clientId,jdbcType=CHAR},
+      </if>
+      <if test="keyId != null" >
+        #{keyId,jdbcType=CHAR},
+      </if>
+      <if test="keyDesc != null" >
+        #{keyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="keyVal != null" >
+        #{keyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="keyDate != null" >
+        #{keyDate,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ftsafe.kms.pojo.KeyInfo" >
+    update t_key_info
+    <set >
+      <if test="keyDesc != null" >
+        KEY_DESC = #{keyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="keyVal != null" >
+        KEY_VAL = #{keyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="keyDate != null" >
+        KEY_DATE = #{keyDate,jdbcType=CHAR},
+      </if>
+    </set>
+    where CLIENT_ID = #{clientId,jdbcType=CHAR}
+      and KEY_ID = #{keyId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ftsafe.kms.pojo.KeyInfo" >
+    update t_key_info
+    set KEY_DESC = #{keyDesc,jdbcType=VARCHAR},
+      KEY_VAL = #{keyVal,jdbcType=VARCHAR},
+      KEY_DATE = #{keyDate,jdbcType=CHAR}
+    where CLIENT_ID = #{clientId,jdbcType=CHAR}
+      and KEY_ID = #{keyId,jdbcType=CHAR}
+  </update>
+</mapper>

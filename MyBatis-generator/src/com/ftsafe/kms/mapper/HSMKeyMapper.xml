@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ftsafe.kms.dao.HSMKeyMapper" >
+  <resultMap id="BaseResultMap" type="com.ftsafe.kms.pojo.HSMKey" >
+    <id column="h_key_type" property="hKeyType" jdbcType="VARCHAR" />
+    <id column="h_key_id" property="hKeyId" jdbcType="VARCHAR" />
+    <result column="h_key_name" property="hKeyName" jdbcType="VARCHAR" />
+    <result column="h_key_all_factor" property="hKeyAllFactor" jdbcType="VARCHAR" />
+    <result column="h_key_flag" property="hKeyFlag" jdbcType="VARCHAR" />
+    <result column="h_key_update_date" property="hKeyUpdateDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    h_key_type, h_key_id, h_key_name, h_key_all_factor, h_key_flag, h_key_update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.ftsafe.kms.pojo.HSMKeyKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_hsm_key
+    where h_key_type = #{hKeyType,jdbcType=VARCHAR}
+      and h_key_id = #{hKeyId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ftsafe.kms.pojo.HSMKeyKey" >
+    delete from t_hsm_key
+    where h_key_type = #{hKeyType,jdbcType=VARCHAR}
+      and h_key_id = #{hKeyId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ftsafe.kms.pojo.HSMKey" >
+    insert into t_hsm_key (h_key_type, h_key_id, h_key_name, 
+      h_key_all_factor, h_key_flag, h_key_update_date
+      )
+    values (#{hKeyType,jdbcType=VARCHAR}, #{hKeyId,jdbcType=VARCHAR}, #{hKeyName,jdbcType=VARCHAR}, 
+      #{hKeyAllFactor,jdbcType=VARCHAR}, #{hKeyFlag,jdbcType=VARCHAR}, #{hKeyUpdateDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ftsafe.kms.pojo.HSMKey" >
+    insert into t_hsm_key
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hKeyType != null" >
+        h_key_type,
+      </if>
+      <if test="hKeyId != null" >
+        h_key_id,
+      </if>
+      <if test="hKeyName != null" >
+        h_key_name,
+      </if>
+      <if test="hKeyAllFactor != null" >
+        h_key_all_factor,
+      </if>
+      <if test="hKeyFlag != null" >
+        h_key_flag,
+      </if>
+      <if test="hKeyUpdateDate != null" >
+        h_key_update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hKeyType != null" >
+        #{hKeyType,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyId != null" >
+        #{hKeyId,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyName != null" >
+        #{hKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyAllFactor != null" >
+        #{hKeyAllFactor,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyFlag != null" >
+        #{hKeyFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyUpdateDate != null" >
+        #{hKeyUpdateDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ftsafe.kms.pojo.HSMKey" >
+    update t_hsm_key
+    <set >
+      <if test="hKeyName != null" >
+        h_key_name = #{hKeyName,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyAllFactor != null" >
+        h_key_all_factor = #{hKeyAllFactor,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyFlag != null" >
+        h_key_flag = #{hKeyFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="hKeyUpdateDate != null" >
+        h_key_update_date = #{hKeyUpdateDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where h_key_type = #{hKeyType,jdbcType=VARCHAR}
+      and h_key_id = #{hKeyId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ftsafe.kms.pojo.HSMKey" >
+    update t_hsm_key
+    set h_key_name = #{hKeyName,jdbcType=VARCHAR},
+      h_key_all_factor = #{hKeyAllFactor,jdbcType=VARCHAR},
+      h_key_flag = #{hKeyFlag,jdbcType=VARCHAR},
+      h_key_update_date = #{hKeyUpdateDate,jdbcType=VARCHAR}
+    where h_key_type = #{hKeyType,jdbcType=VARCHAR}
+      and h_key_id = #{hKeyId,jdbcType=VARCHAR}
+  </update>
+</mapper>

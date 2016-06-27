@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ftsafe.kms.dao.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ftsafe.kms.pojo.SysLog" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="l_oper" property="lOper" jdbcType="VARCHAR" />
+    <result column="l_type" property="lType" jdbcType="VARCHAR" />
+    <result column="l_content" property="lContent" jdbcType="VARCHAR" />
+    <result column="l_date" property="lDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, l_oper, l_type, l_content, l_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_log
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_sys_log
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ftsafe.kms.pojo.SysLog" >
+    insert into t_sys_log (Id, l_oper, l_type, 
+      l_content, l_date)
+    values (#{id,jdbcType=INTEGER}, #{lOper,jdbcType=VARCHAR}, #{lType,jdbcType=VARCHAR}, 
+      #{lContent,jdbcType=VARCHAR}, #{lDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ftsafe.kms.pojo.SysLog" >
+    insert into t_sys_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="lOper != null" >
+        l_oper,
+      </if>
+      <if test="lType != null" >
+        l_type,
+      </if>
+      <if test="lContent != null" >
+        l_content,
+      </if>
+      <if test="lDate != null" >
+        l_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lOper != null" >
+        #{lOper,jdbcType=VARCHAR},
+      </if>
+      <if test="lType != null" >
+        #{lType,jdbcType=VARCHAR},
+      </if>
+      <if test="lContent != null" >
+        #{lContent,jdbcType=VARCHAR},
+      </if>
+      <if test="lDate != null" >
+        #{lDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ftsafe.kms.pojo.SysLog" >
+    update t_sys_log
+    <set >
+      <if test="lOper != null" >
+        l_oper = #{lOper,jdbcType=VARCHAR},
+      </if>
+      <if test="lType != null" >
+        l_type = #{lType,jdbcType=VARCHAR},
+      </if>
+      <if test="lContent != null" >
+        l_content = #{lContent,jdbcType=VARCHAR},
+      </if>
+      <if test="lDate != null" >
+        l_date = #{lDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ftsafe.kms.pojo.SysLog" >
+    update t_sys_log
+    set l_oper = #{lOper,jdbcType=VARCHAR},
+      l_type = #{lType,jdbcType=VARCHAR},
+      l_content = #{lContent,jdbcType=VARCHAR},
+      l_date = #{lDate,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

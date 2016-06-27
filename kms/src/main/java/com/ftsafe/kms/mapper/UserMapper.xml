@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ftsafe.kms.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.ftsafe.kms.pojo.User" >
+    <id column="oper_id" property="operId" jdbcType="VARCHAR" />
+    <result column="oper_name" property="operName" jdbcType="VARCHAR" />
+    <result column="oper_pwd" property="operPwd" jdbcType="VARCHAR" />
+    <result column="pass_err_times" property="passErrTimes" jdbcType="INTEGER" />
+    <result column="oper_type" property="operType" jdbcType="CHAR" />
+    <result column="oper_flag" property="operFlag" jdbcType="CHAR" />
+    <result column="oper_email" property="operEmail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    oper_id, oper_name, oper_pwd, pass_err_times, oper_type, oper_flag, oper_email
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_oper
+    where oper_id = #{operId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_oper
+    where oper_id = #{operId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ftsafe.kms.pojo.User" >
+    insert into t_oper (oper_id, oper_name, oper_pwd, 
+      pass_err_times, oper_type, oper_flag, 
+      oper_email)
+    values (#{operId,jdbcType=VARCHAR}, #{operName,jdbcType=VARCHAR}, #{operPwd,jdbcType=VARCHAR}, 
+      #{passErrTimes,jdbcType=INTEGER}, #{operType,jdbcType=CHAR}, #{operFlag,jdbcType=CHAR}, 
+      #{operEmail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ftsafe.kms.pojo.User" >
+    insert into t_oper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operId != null" >
+        oper_id,
+      </if>
+      <if test="operName != null" >
+        oper_name,
+      </if>
+      <if test="operPwd != null" >
+        oper_pwd,
+      </if>
+      <if test="passErrTimes != null" >
+        pass_err_times,
+      </if>
+      <if test="operType != null" >
+        oper_type,
+      </if>
+      <if test="operFlag != null" >
+        oper_flag,
+      </if>
+      <if test="operEmail != null" >
+        oper_email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operId != null" >
+        #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operName != null" >
+        #{operName,jdbcType=VARCHAR},
+      </if>
+      <if test="operPwd != null" >
+        #{operPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="passErrTimes != null" >
+        #{passErrTimes,jdbcType=INTEGER},
+      </if>
+      <if test="operType != null" >
+        #{operType,jdbcType=CHAR},
+      </if>
+      <if test="operFlag != null" >
+        #{operFlag,jdbcType=CHAR},
+      </if>
+      <if test="operEmail != null" >
+        #{operEmail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ftsafe.kms.pojo.User" >
+    update t_oper
+    <set >
+      <if test="operName != null" >
+        oper_name = #{operName,jdbcType=VARCHAR},
+      </if>
+      <if test="operPwd != null" >
+        oper_pwd = #{operPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="passErrTimes != null" >
+        pass_err_times = #{passErrTimes,jdbcType=INTEGER},
+      </if>
+      <if test="operType != null" >
+        oper_type = #{operType,jdbcType=CHAR},
+      </if>
+      <if test="operFlag != null" >
+        oper_flag = #{operFlag,jdbcType=CHAR},
+      </if>
+      <if test="operEmail != null" >
+        oper_email = #{operEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oper_id = #{operId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ftsafe.kms.pojo.User" >
+    update t_oper
+    set oper_name = #{operName,jdbcType=VARCHAR},
+      oper_pwd = #{operPwd,jdbcType=VARCHAR},
+      pass_err_times = #{passErrTimes,jdbcType=INTEGER},
+      oper_type = #{operType,jdbcType=CHAR},
+      oper_flag = #{operFlag,jdbcType=CHAR},
+      oper_email = #{operEmail,jdbcType=VARCHAR}
+    where oper_id = #{operId,jdbcType=VARCHAR}
+  </update>
+</mapper>
