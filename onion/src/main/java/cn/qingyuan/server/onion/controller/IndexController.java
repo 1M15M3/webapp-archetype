@@ -1,0 +1,39 @@
+/**
+* <p>
+* @className:IndexController.java
+* @classDescription:
+* <p>
+* @createTime：2016年8月17日
+* @author：Qingyuan
+*/
+
+package cn.qingyuan.server.onion.controller;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+* <p>
+* @className:IndexController.java
+* @classDescription:
+* <p>
+* @createTime:2016年8月17日
+* @author:Qingyuan
+*/
+
+@Controller
+public class IndexController {
+
+    @Value("${example.message}")
+    private String message;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @ResponseBody
+    public String showIndex() {
+        return message;
+    }
+
+}
