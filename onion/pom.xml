@@ -188,6 +188,13 @@
 			<resource>
 				<directory>src/main/resources</directory>
 			</resource>
+      <!-- add xml file located into classpath -->
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
 		</resources>
 		<plugins>
 			<!-- Set JDK Compiler Level -->
