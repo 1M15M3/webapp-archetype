@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.dao.OADao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.cg.entity.OA" >
+	<result column="id" property="id"/>
+	<result column="endTime" property="endTime"/>
+	<result column="operateInfo" property="operateInfo"/>
+	<result column="operateResult" property="operateResult"/>
+	<result column="operateTime" property="operateTime"/>
+	<result column="operateUserId" property="operateUserId"/>
+	<result column="operateUserName" property="operateUserName"/>
+	<result column="operationIp" property="operationIp"/>
+	<result column="serverAccount" property="serverAccount"/>
+	<result column="serverIP" property="serverIP"/>
+</resultMap>
+       
+<!-- ft_logs table all fields -->
+<sql id="Base_Column_List" >
+	 id,endTime,operateInfo,operateResult,operateTime,operateUserId,operateUserName,operationIp,serverAccount,serverIP
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="condition.id != null and condition.id != ''" >
+	    and id =  #{condition.id}
+	</if>
+	<if test="condition.endTime != null and condition.endTime != ''" >
+	    and endTime =  #{condition.endTime}
+	</if>
+	<if test="condition.operateInfo != null and condition.operateInfo != ''" >
+	    and operateInfo =  #{condition.operateInfo}
+	</if>
+	<if test="condition.operateResult != null and condition.operateResult != ''" >
+	    and operateResult =  #{condition.operateResult}
+	</if>
+	<if test="condition.operateTime != null and condition.operateTime != ''" >
+	    and operateTime =  #{condition.operateTime}
+	</if>
+	<if test="condition.operateUserId != null and condition.operateUserId != ''" >
+	    and operateUserId =  #{condition.operateUserId}
+	</if>
+	<if test="condition.operateUserName != null and condition.operateUserName != ''" >
+	    and operateUserName =  #{condition.operateUserName}
+	</if>
+	<if test="condition.operationIp != null and condition.operationIp != ''" >
+	    and operationIp =  #{condition.operationIp}
+	</if>
+	<if test="condition.serverAccount != null and condition.serverAccount != ''" >
+	    and serverAccount =  #{condition.serverAccount}
+	</if>
+	<if test="condition.serverIP != null and condition.serverIP != ''" >
+	    and serverIP =  #{condition.serverIP}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into ft_logs(id,endTime,operateInfo,operateResult,operateTime,operateUserId,operateUserName,operationIp,serverAccount,serverIP)
+ values(#{id},#{endTime},#{operateInfo},#{operateResult},#{operateTime},#{operateUserId},#{operateUserName},#{operationIp},#{serverAccount},#{serverIP})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update ft_logs set endTime=#{endTime},operateInfo=#{operateInfo},operateResult=#{operateResult},operateTime=#{operateTime},operateUserId=#{operateUserId},operateUserName=#{operateUserName},operationIp=#{operationIp},serverAccount=#{serverAccount},serverIP=#{serverIP} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update ft_logs set 
+	<trim  suffixOverrides="," >
+	<if test="endTime != null  ">
+		endTime=#{endTime},
+	</if>
+	<if test="operateInfo != null  ">
+		operateInfo=#{operateInfo},
+	</if>
+	<if test="operateResult != null  ">
+		operateResult=#{operateResult},
+	</if>
+	<if test="operateTime != null  ">
+		operateTime=#{operateTime},
+	</if>
+	<if test="operateUserId != null  ">
+		operateUserId=#{operateUserId},
+	</if>
+	<if test="operateUserName != null  ">
+		operateUserName=#{operateUserName},
+	</if>
+	<if test="operationIp != null  ">
+		operationIp=#{operationIp},
+	</if>
+	<if test="serverAccount != null  ">
+		serverAccount=#{serverAccount},
+	</if>
+	<if test="serverIP != null  ">
+		serverIP=#{serverIP},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from ft_logs where id = #{id}
+</delete>
+ 
+<!-- 根据id查询 系统日志 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from ft_logs where id = #{id}
+</select>
+
+<!-- 系统日志 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from ft_logs 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询系统日志列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from ft_logs 
+	<include refid="Example_Where_Clause"/>
+	<if test="orderByClause != null and orderByClause != ''" >
+       order by  ${orderByClause}
+    </if>
+    <if test="limitClause != null and limitClause != ''" >
+       ${limitClause}
+    </if>
+</select>
+  	
+</mapper>   

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${bussPackage}.mapper#if($!entityPackage).${entityPackage}#end.${className}Mapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="${bussPackage}.model#if($!entityPackage).${entityPackage}#end.$!{className}" >
+#foreach($item in $!{columnDatas})
+	<result column="$!item.columnName" property="$!item.formatColumnName" />
+#end
+</resultMap>
+       
+<!-- $!{tableName} table all fields -->
+<sql id="Base_Column_List" >
+	 $!{SQL.columnFields}
+</sql>
+   
+<!-- 查询条件，精确查询 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+#foreach($item in $!{columnDatas})
+	#set($testStr = $!item.formatColumnName + " != null and " + $!item.formatColumnName + " != ''")
+	#if($!item.dataType == 'String')
+		#set($testStr = $!testStr + " and " + $!item.formatColumnName + " != ''")
+ 	#end
+	<if test="$!testStr" >
+	    and $!item.columnName =  #{$!item.formatColumnName}
+	</if>
+#end
+</trim>
+</sql>
+
+<!-- 查询条件，模糊查询 -->
+<sql id="Example_Where_Clause_like">
+where 1=1
+<trim  suffixOverrides="," >
+#foreach($item in $!{columnDatas})
+	#set($testStr = $!item.formatColumnName + " != null and " + $!item.formatColumnName + " != ''")
+	#if($!item.dataType == 'String')
+		#set($testStr = $!testStr + " and " + $!item.formatColumnName + " != ''")
+ 	#end
+	<if test="$!testStr" >
+		and $!item.columnName like CONCAT('%',#{$!item.formatColumnName},'%') 
+	</if>
+#end
+    <!--  根据需求启用或变更
+	<if test="beginCreateDate!=null and beginCreateDate!=''">      
+		AND mt.createDate &gt;#{beginCreateDate,jdbcType=TIMESTAMP}    
+	</if>    
+	<if test="endCreateDate!=null and endCreateDate!=''">     
+		and mt.createDate&lt;#{endCreateDate,jdbcType=TIMESTAMP}     
+	</if>
+	
+	<if test="beginChangeDate!=null and beginChangeDate!=''">      
+		AND mt.changeDate&gt;#{beginChangeDate,jdbcType=TIMESTAMP}   
+	</if>    
+	<if test="endChangeDate!=null and endChangeDate!=''">     
+		and mt.changeDate&lt;#{endChangeDate,jdbcType=TIMESTAMP}     
+	</if>
+	-->
+
+</trim>
+</sql>
+
+<!-- 查询条件，精确查询 
+<sql id="Example_Where_Clause_condition">
+where 1=1
+<trim  suffixOverrides="," >
+#foreach($item in $!{columnDatas})
+	#set($testStr = "condition."+$!item.formatColumnName + " != null and condition." + $!item.formatColumnName + " != ''")
+	#if($!item.dataType == 'String')
+		#set($testStr = $!testStr + " and condition." + $!item.formatColumnName + " != ''")
+ 	#end
+<if test="$!testStr" >
+	    and $!item.columnName =  #{condition.$!item.formatColumnName}
+	</if>
+#end
+</trim>
+</sql>
+-->
+
+<!-- 查询条件，模糊查询 -->
+<sql id="Example_Where_Clause_like_condition">
+where 1=1
+<trim  suffixOverrides="," >
+#foreach($item in $!{columnDatas})
+	#set($testStr = "condition."+$!item.formatColumnName + " != null and condition." + $!item.formatColumnName + " != ''")
+	#if($!item.dataType == 'String')
+		#set($testStr = $!testStr + " and condition." + $!item.formatColumnName + " != ''")
+ 	#end
+<if test="$!testStr" >
+	    and $!item.columnName like '%#{condition.$!item.formatColumnName}%'
+	</if>
+#end
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="insert" parameterType="Object" >
+#if ($keyType =='02')
+	<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+		SELECT LAST_INSERT_ID()
+  	</selectKey>
+#end
+  $!{SQL.insert}
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="updateByPrimaryKey" parameterType="Object" >
+  $!{SQL.update}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	$!{SQL.updateSelective}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteByPrimaryKey" parameterType="Object">
+	$!{SQL.delete}
+</delete>
+
+<!-- 删除记录,根据条件查询 -->
+<delete id="deleteByModel" parameterType="Object">
+	delete from ${tableName} 
+	<include refid="Example_Where_Clause"/>  
+</delete>
+
+<!-- 删除记录,，根据数组（主键） -->
+<delete id="deleteByArray" parameterType="int">
+	delete from ${tableName}  where id in
+	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            ${#{ids}}
+    </foreach>
+</delete>
+ 
+<!-- 根据id查询 ${codeName} -->
+<select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="Object">
+	$!{SQL.selectById}
+</select>
+
+<!-- ${codeName} 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from ${tableName} 
+	<include refid="Example_Where_Clause"/>
+	<if test="isExact == 'true'">
+		<include refid="Example_Where_Clause"/>
+	</if>
+	<if test="isExact == 'false'">
+   		<include refid="Example_Where_Clause_like"/>
+	</if>
+</select>
+  	
+<!-- 查询${codeName}列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from ${tableName} 
+	<if test="isExact == 'true'">
+		<include refid="Example_Where_Clause"/>
+	</if>
+	<if test="isExact == 'false'">
+   		<include refid="Example_Where_Clause_like"/>
+	</if>
+	<if test="orderByClause != null and orderByClause != ''" >
+       order by ${orderByClause}
+    </if>
+    <if test="limitClause != null and limitClause != ''" >
+       ${limitClause}
+    </if>
+</select>
+  	
+</mapper>   

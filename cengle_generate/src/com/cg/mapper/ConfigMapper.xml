@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cg.dao.FtConfigDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.cg.entity.FtConfig" >
+	<result column="id" property="id" />
+	<result column="name" property="name" />
+	<result column="maxCount" property="maxCount" />
+	<result column="description" property="description" />
+	<result column="createDate" property="createDate" />
+	<result column="createUserId" property="createUserId" />
+	<result column="configType" property="configType" />
+</resultMap>
+       
+<!-- ft_config table all fields -->
+<sql id="Base_Column_List" >
+	 id,name,maxCount,description,createDate,createUserId,configType
+</sql>
+   
+   
+<!-- 查询条件，精确查询 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null and id != ''" >
+	    and id =  #{id}
+	</if>
+	<if test="name != null and name != ''" >
+	    and name =  #{name}
+	</if>
+	<if test="maxCount != null and maxCount != ''" >
+	    and maxCount =  #{maxCount}
+	</if>
+	<if test="description != null and description != ''" >
+	    and description =  #{description}
+	</if>
+	<if test="createDate != null and createDate != ''" >
+	    and createDate =  #{createDate}
+	</if>
+	<if test="createUserId != null and createUserId != ''" >
+	    and createUserId =  #{createUserId}
+	</if>
+	<if test="configType != null and configType != ''" >
+	    and configType =  #{configType}
+	</if>
+</trim>
+</sql>
+
+<!-- 查询条件，模糊查询 -->
+<sql id="Example_Where_Clause_like">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null and id != ''" >
+	    and id like '%#{id}%'
+	</if>
+	<if test="name != null and name != ''" >
+	    and name like '%#{name}%'
+	</if>
+	<if test="maxCount != null and maxCount != ''" >
+	    and maxCount like '%#{maxCount}%'
+	</if>
+	<if test="description != null and description != ''" >
+	    and description like '%#{description}%'
+	</if>
+	<if test="createDate != null and createDate != ''" >
+	    and createDate like '%#{createDate}%'
+	</if>
+	<if test="createUserId != null and createUserId != ''" >
+	    and createUserId like '%#{createUserId}%'
+	</if>
+	<if test="configType != null and configType != ''" >
+	    and configType like '%#{configType}%'
+	</if>
+</trim>
+</sql>
+
+<!-- 查询条件，精确查询 -->
+<sql id="Example_Where_Clause_condition">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="condition.id != null and condition.id != ''" >
+	    and id =  #{condition.id}
+	</if>
+	<if test="condition.name != null and condition.name != ''" >
+	    and name =  #{condition.name}
+	</if>
+	<if test="condition.maxCount != null and condition.maxCount != ''" >
+	    and maxCount =  #{condition.maxCount}
+	</if>
+	<if test="condition.description != null and condition.description != ''" >
+	    and description =  #{condition.description}
+	</if>
+	<if test="condition.createDate != null and condition.createDate != ''" >
+	    and createDate =  #{condition.createDate}
+	</if>
+	<if test="condition.createUserId != null and condition.createUserId != ''" >
+	    and createUserId =  #{condition.createUserId}
+	</if>
+	<if test="condition.configType != null and condition.configType != ''" >
+	    and configType =  #{condition.configType}
+	</if>
+</trim>
+</sql>
+
+<!-- 查询条件，模糊查询 -->
+<sql id="Example_Where_Clause_like_condition">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="condition.id != null and condition.id != ''" >
+	    and id like '%#{condition.id}%'
+	</if>
+	<if test="condition.name != null and condition.name != ''" >
+	    and name like '%#{condition.name}%'
+	</if>
+	<if test="condition.maxCount != null and condition.maxCount != ''" >
+	    and maxCount like '%#{condition.maxCount}%'
+	</if>
+	<if test="condition.description != null and condition.description != ''" >
+	    and description like '%#{condition.description}%'
+	</if>
+	<if test="condition.createDate != null and condition.createDate != ''" >
+	    and createDate like '%#{condition.createDate}%'
+	</if>
+	<if test="condition.createUserId != null and condition.createUserId != ''" >
+	    and createUserId like '%#{condition.createUserId}%'
+	</if>
+	<if test="condition.configType != null and condition.configType != ''" >
+	    and configType like '%#{condition.configType}%'
+	</if>
+</trim>
+</sql>
+
+<!-- 插入记录 -->
+<insert id="insert" parameterType="Object" >
+<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into ft_config(id,name,maxCount,description,createDate,createUserId,configType)
+ values(#{id},#{name},#{maxCount},#{description},#{createDate},#{createUserId},#{configType})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="updateByPrimaryKey" parameterType="Object" >
+  update ft_config set name=#{name},maxCount=#{maxCount},description=#{description},createDate=#{createDate},createUserId=#{createUserId},configType=#{configType} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update ft_config set 
+	<trim  suffixOverrides="," >
+	<if test="name != null  ">
+		name=#{name},
+	</if>
+	<if test="maxCount != null  ">
+		maxCount=#{maxCount},
+	</if>
+	<if test="description != null  ">
+		description=#{description},
+	</if>
+	<if test="createDate != null  ">
+		createDate=#{createDate},
+	</if>
+	<if test="createUserId != null  ">
+		createUserId=#{createUserId},
+	</if>
+	<if test="configType != null  ">
+		configType=#{configType},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteByPrimaryKey" parameterType="Object">
+	delete 	 from ft_config where id = #{id}
+</delete>
+
+<!-- 删除记录,根据条件查询 -->
+<delete id="deleteByModel" parameterType="Object">
+	delete from ft_config 
+	<include refid="Example_Where_Clause"/>  
+</delete>
+
+<!-- 删除记录,，根据数组（主键） -->
+<delete id="deleteByArray" parameterType="int">
+	delete from ft_config  where id in
+	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #ids
+    </foreach>
+</delete>
+ 
+<!-- 根据id查询 基础配置 -->
+<select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from ft_config where id = #{id}
+</select>
+
+<!-- 基础配置 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from ft_config 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询基础配置列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from ft_config 
+	<include refid="Example_Where_Clause"/>
+	<if test="orderByClause != null and orderByClause != ''" >
+       order by  ${orderByClause}
+    </if>
+    <if test="limitClause != null and limitClause != ''" >
+       ${limitClause}
+    </if>
+</select>
+  	
+</mapper>   

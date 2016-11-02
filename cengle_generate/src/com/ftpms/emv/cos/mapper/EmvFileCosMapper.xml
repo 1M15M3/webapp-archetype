@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ftpms.emv.cos.mapper.EmvFileCosMapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.ftpms.emv.cos.model.EmvFileCos" >
+	<result column="id" property="id" />
+	<result column="cosCode" property="cosCode" />
+	<result column="cosName" property="cosName" />
+	<result column="cosHash" property="cosHash" />
+	<result column="cosFilePath" property="cosFilePath" />
+	<result column="status" property="status" />
+	<result column="createUserId" property="createUserId" />
+	<result column="createDate" property="createDate" />
+</resultMap>
+       
+<!-- emv_file_cos table all fields -->
+<sql id="Base_Column_List" >
+	 id,cosCode,cosName,cosHash,cosFilePath,status,createUserId,createDate
+</sql>
+   
+<!-- 查询条件，精确查询 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim suffixOverrides="," >
+		<if test="id != null and id != ''" >
+	    and mt.id =  #{id}
+	</if>
+		<if test="cosCode != null and cosCode != ''" >
+	    and mt.cosCode =  #{cosCode}
+	</if>
+		<if test="cosName != null and cosName != ''" >
+	    and mt.cosName =  #{cosName}
+	</if>
+		<if test="cosHash != null and cosHash != ''" >
+	    and mt.cosHash =  #{cosHash}
+	</if>
+		<if test="cosFilePath != null and cosFilePath != ''" >
+	    and mt.cosFilePath =  #{cosFilePath}
+	</if>
+		<if test="status != null and status != ''" >
+	    and mt.status =  #{status}
+	</if>
+		<if test="createUserId != null and createUserId != ''" >
+	    and mt.createUserId =  #{createUserId}
+	</if>
+		<if test="createDate != null and createDate != ''" >
+	    and mt.createDate =  #{createDate}
+	</if>
+  <!--  根据需求启用或变更
+	<if test="beginCreateDate!=null and beginCreateDate!=''">      
+		AND mt.createDate &gt;#{beginCreateDate,jdbcType=TIMESTAMP}    
+	</if>    
+	<if test="endCreateDate!=null and endCreateDate!=''">     
+		and mt.createDate&lt;#{endCreateDate,jdbcType=TIMESTAMP}     
+	</if>
+	
+	<if test="beginChangeDate!=null and beginChangeDate!=''">      
+		AND mt.changeDate&gt;#{beginChangeDate,jdbcType=TIMESTAMP}   
+	</if>    
+	<if test="endChangeDate!=null and endChangeDate!=''">     
+		and mt.changeDate&lt;#{endChangeDate,jdbcType=TIMESTAMP}     
+	</if>
+	-->
+</trim>
+</sql>
+
+<!-- 查询条件，模糊查询 -->
+<sql id="Example_Where_Clause_like">
+where 1=1
+<trim  suffixOverrides="," >
+		<if test="id != null and id != ''" >
+		and mt.id like CONCAT('%',#{id},'%') 
+	</if>
+		<if test="cosCode != null and cosCode != ''" >
+		and mt.cosCode like CONCAT('%',#{cosCode},'%') 
+	</if>
+		<if test="cosName != null and cosName != ''" >
+		and mt.cosName like CONCAT('%',#{cosName},'%') 
+	</if>
+		<if test="cosHash != null and cosHash != ''" >
+		and mt.cosHash like CONCAT('%',#{cosHash},'%') 
+	</if>
+		<if test="cosFilePath != null and cosFilePath != ''" >
+		and mt.cosFilePath like CONCAT('%',#{cosFilePath},'%') 
+	</if>
+		<if test="status != null and status != ''" >
+		and mt.status like CONCAT('%',#{status},'%') 
+	</if>
+		<if test="createUserId != null and createUserId != ''" >
+		and mt.createUserId like CONCAT('%',#{createUserId},'%') 
+	</if>
+		<if test="createDate != null and createDate != ''" >
+		and mt.createDate like CONCAT('%',#{createDate},'%') 
+	</if>
+    <!--  根据需求启用或变更
+	<if test="beginCreateDate!=null and beginCreateDate!=''">      
+		AND mt.createDate &gt;#{beginCreateDate,jdbcType=TIMESTAMP}    
+	</if>    
+	<if test="endCreateDate!=null and endCreateDate!=''">     
+		and mt.createDate&lt;#{endCreateDate,jdbcType=TIMESTAMP}     
+	</if>
+	
+	<if test="beginChangeDate!=null and beginChangeDate!=''">      
+		AND mt.changeDate&gt;#{beginChangeDate,jdbcType=TIMESTAMP}   
+	</if>    
+	<if test="endChangeDate!=null and endChangeDate!=''">     
+		and mt.changeDate&lt;#{endChangeDate,jdbcType=TIMESTAMP}     
+	</if>
+	-->
+
+</trim>
+</sql>
+<!-- 插入记录 -->
+<insert id="insert" parameterType="Object" >
+	<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+		SELECT LAST_INSERT_ID()
+  	</selectKey>
+  insert into emv_file_cos(id,cosCode,cosName,cosHash,cosFilePath,status,createUserId,createDate)
+ values(#{id},#{cosCode},#{cosName},#{cosHash},#{cosFilePath},#{status},#{createUserId},#{createDate})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="updateByPrimaryKey" parameterType="Object" >
+  update emv_file_cos set cosCode=#{cosCode},cosName=#{cosName},cosHash=#{cosHash},cosFilePath=#{cosFilePath},status=#{status},createUserId=#{createUserId},createDate=#{createDate} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update emv_file_cos set 
+	<trim  suffixOverrides="," >
+	<if test="cosCode != null ">
+		cosCode=#{cosCode},
+	</if>
+	<if test="cosName != null ">
+		cosName=#{cosName},
+	</if>
+	<if test="cosHash != null ">
+		cosHash=#{cosHash},
+	</if>
+	<if test="cosFilePath != null ">
+		cosFilePath=#{cosFilePath},
+	</if>
+	<if test="status != null ">
+		status=#{status},
+	</if>
+	<if test="createUserId != null ">
+		createUserId=#{createUserId},
+	</if>
+	<if test="createDate != null ">
+		createDate=#{createDate},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteByPrimaryKey" parameterType="Object">
+	delete 	 from emv_file_cos where id = #{id}
+</delete>
+
+<!-- 删除记录,根据条件查询 -->
+<delete id="deleteByModel" parameterType="Object">
+	delete from emv_file_cos mt
+	<include refid="Example_Where_Clause"/>  
+</delete>
+
+<!-- 删除记录,，根据数组（主键） -->
+<delete id="deleteByArray" parameterType="int">
+	delete from emv_file_cos  where id in
+	<foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #ids
+    </foreach>
+</delete>
+ 
+<!-- 根据id查询 COS管理 -->
+<select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from emv_file_cos where id = #{id}
+</select>
+
+<!-- COS管理 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from emv_file_cos mt 
+	<if test="isExact == 'true'">
+		<include refid="Example_Where_Clause"/>
+	</if>
+	<if test="isExact == 'false'">
+   		<include refid="Example_Where_Clause_like"/>
+	</if>
+</select>
+  	
+<!-- 查询COS管理列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select mt.*
+	from emv_file_cos mt 
+	<if test="isExact == 'true'">
+		<include refid="Example_Where_Clause"/>
+	</if>
+	<if test="isExact == 'false'">
+   		<include refid="Example_Where_Clause_like"/>
+	</if>
+	<if test="orderByClause != null and orderByClause != ''" >
+       order by ${orderByClause}
+    </if>
+    <if test="limitClause != null and limitClause != ''" >
+       ${limitClause}
+    </if>
+</select>
+  	
+</mapper>   
